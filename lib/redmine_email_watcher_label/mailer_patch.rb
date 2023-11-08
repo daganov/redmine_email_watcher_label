@@ -31,7 +31,7 @@ module RedmineEmailWatcherLabel
       def deliver_wiki_content_added(wiki_content)
         users = wiki_content.notified_users | wiki_content.page.wiki.notified_watchers | wiki_content.notified_mentions
         users.each do |user|
-          watcher = wiki_content.notified_watchers.include?(user)
+          watcher = wiki_content.page.notified_watchers.include?(user)
           wiki_content_added(user, wiki_content, watcher: watcher).deliver_later
         end
       end
@@ -43,7 +43,7 @@ module RedmineEmailWatcherLabel
         users |= wiki_content.notified_mentions
 
         users.each do |user|
-          watcher = wiki_content.notified_watchers.include?(user)
+          watcher = wiki_content.page.notified_watchers.include?(user)
           wiki_content_updated(user, wiki_content, watcher: watcher).deliver_later
         end
       end
